@@ -1,0 +1,13 @@
+.PHONY: all
+all: library
+
+.PHONY: library
+library: static shared
+
+.PHONY: static
+static: $(OBJ_FILES)
+	ar -r $(LIB_DIR)lib$(LIBRARYTARGET).a $(OBJ_FILES)
+
+.PHONY: shared
+shared: $(OBJ_FILES)
+	$(CC) $(OBJ_FILES) -shared -o $(LIB_DIR)lib$(LIBRARY_TARGET).so

@@ -1,0 +1,141 @@
+#!/usr/bin/python
+import fileinput
+import os, errno
+
+########################################
+#        Edward's Build System         #
+#    This software is distibuting      #
+#      by General Public license.      #
+#      See more on http://gnu.org      #
+#  E-mail: edward.sarkisyan@gmail.com  #
+#  version 1.0                         #
+########################################
+
+dir_struct = ["bin", "lib", "src", "obj", "dep", "tests", "doc"]
+epsys_dir="/usr/local/bin/epsys.inc/"
+helpFile= epsys_dir + "help.txt"
+topFile = epsys_dir + "top1"
+botFile = epsys_dir + "bot1"
+libPFile = epsys_dir + "libpart"
+binPFile = epsys_dir + "binpart"
+
+
+def showMeHelp():
+	os.system("cat "+helpFile+" | more");
+
+def appendToResult(fromFile, toFile):
+	fF = open(fromFile, 'r')
+	tF = open(toFile, 'w+')
+	for line in fF.readlines():
+		tF.write(line)
+	fF.close()
+	tF.close()
+
+def mkdir_p(path):
+	try:
+		os.makedirs(path)
+	except OSError as exc:
+		if exc.errno == errno.EEXIST:
+			pass
+		else:
+			raise
+def getMoreLibs():
+	resLib = ""
+	tmpLib = ""
+	while tmpLib != "quit":
+		tmpLib = raw_input("Enter library name\nE.g if you want to add libfoo.so enter just foo\n quit to return previos menu: ")
+		if tmpLib != "quit":
+			resLib += " -l"+tmpLib
+	return resLib
+
+def createLibTarget(path):
+	target_name=raw_input("Specify target library's name \n(e.g mylibrary for libmylibrary.so and libmylibrary.a: ");
+	resFile = open(path + '/Makefile', 'w')
+	topF = open(topFile, 'r')
+	bodyF = open(libPFile, 'r')
+	bottomF = open(botFile, 'r')
+	print "Action 0/4 copmpleted"
+	for line in topF.readlines():
+		resFile.write(line)
+	print "Action 1/4 compelted"
+	resFile.write("LIBRARY_TARGET := " + target_name + "\n")
+	print "Action 2/4 completed"
+	for line in bodyF.readlines():
+		resFile.write(line)
+	print "Action 3/4 completed"
+	for line in bottomF.readlines():
+		resFile.write(line)
+	print "Action 4/4 completed\nFinishing..."
+	resFile.close()
+	topF.close()
+	bodyF.close()
+	bottomF.close()
+	print "Done!"
+
+
+def createExeTarget(path):
+	target_name = raw_input("Specify target executable's name (e.g. myapp.exe): ")
+	resFile = open(path + '/Makefile', 'w')
+	topF = open(topFile, 'r')
+	bodyF = open(binPFile, 'r')
+	bottomF = open(botFile, 'r')
+	print "Generating Makefile\nAction 0/1 completed"
+	for line in topF.readlines():
+		resFile.write(line)
+	print "Action 1/5 completed"
+	moreLibs =""
+	libToAddQ = raw_input("Do you need to add some libraries to the project? \n Y/N: ");
+	if libToAddQ == "Y":
+		moreLibs = getMoreLibs();
+	if moreLibs == "":
+		resFile.write("LINK_LIBS:=\n")
+	else:
+		resFile.write('LINK_LIBS:='+moreLibs+'\n')
+	print "Action 2/5 completed"
+
+	resFile.write("BINARY_TARGET := " + target_name + "\n")
+	print "Action 3/5 completed"
+	for line in bodyF.readlines():
+		resFile.write(line)
+	print "Action 4/5 completed"
+	for line in bottomF.readlines():
+		resFile.write(line)
+	print "Action 5/5 completed\nFinishing..."
+	resFile.close()
+	topF.close()
+	bodyF.close()
+	bottomF.close()
+	print "Done!"
+
+hello=raw_input("Edward's Build System v 1.0\nHi, man!\n help - to get help\n quit/exit - exit \n Anything else - create project\n Enter: ");
+
+if hello == "help":
+	showMeHelp()
+elif hello == "quit":
+	pass
+elif hello == "exit":
+	pass
+else:
+	project_path=raw_input("Enter project's path: ");
+
+	mkdir_p(project_path)
+
+	print "Creating directories"
+	for line in dir_struct:
+		print "    * Creating ",project_path + "/" + line,"..."
+		mkdir_p(project_path + "/" + line)
+	print "Done!"
+	
+	c="3"
+	while c!="q" :
+		print "l  - target is lib"
+		print "e  - target is executable"
+		print "q - exit"
+		c=raw_input("Choose: ")
+		if c == "l":
+			createLibTarget(project_path)
+			c= "q"
+		elif c == "e":
+			createExeTarget(project_path)
+			c= "q"
+	

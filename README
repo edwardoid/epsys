@@ -1,0 +1,25 @@
+INFORMATION
+	Edward's Build System v 1.0a- it's small system which help you to add new C++ projects, manage them, compile, link, generate documentation and run tests
+
+INSTALLATION
+	sudo ./install
+
+REQUIREMENTS
+	bash   ( Aviable in most UNIX-like systems)
+	python ( Can be installed by sudo apt-get install python)
+	cp     ( Aviable in all UNIX-like systems)
+	mv     ( Aviable in all UNIX-like systems)
+	rm     ( Aviable in all UNIX-like systems)
+	cat    ( Aviable in all UNIX-like systems)
+	make   ( Can be installed by sudo apt-get install make (for Debian based GNU/Linux distributions)
+	g++    ( Can be installet by sudo apt-get install gcc (for Debian based GNU/Linux distributions)	
+
+UNINSTALL
+	Run sudo ./remove
+
+USAGE
+	Install and then enter `epsys`, then enter `help`
+
+LICENSE
+	Created by Edward Sarkisyan (edward.sarkisyan@gmail.com)
+	This sowftware uses GPL License. See more in gnu.org

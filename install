@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# Edward Sarkisyan. 2011
+# Installer for Edward's Build System
+# License: GPL
+# E-mail: edward.sarkisyan@gmail.com
+#
+
+default_install_directory="/usr/local/bin"
+system_command="epsys"
+system_include_directory="epsys.inc"
+
+echo "Edward's Build system will be installed to $default_install_directory"
+echo "Press any key to install..."
+anykey=""
+read $anykey
+
+sudo chmod +x epsys
+sudo cp -r $system_include_directory $default_install_directory
+sudo cp $system_command $default_install_directory
+echo "Edward's Build Systema successefuly installed :)"
+echo "Now you can use it, just enter in terminal 'epsys'"

@@ -1,0 +1,21 @@
+$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
+	echo "OBJ"
+	$(CC) -c $< -I$(INC_DIR) -o $@
+$(DEP_DIR)%.dep: $(SRC_DIR)%.cpp
+	$(CC) -MM $< -MT "$@ $(patsubst $(DEP_DIR)%.dep,$(OBJ_DIR)%o,$@)" -I$(INC_DIR) -o $@
+
+-include $(DEP_FILES)
+
+.PHONY: prepare
+prepare:
+	mkdir -p $(DEP_DIR)
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(BIN_DIR)
+	mkdir -p $(LIB_DIR)
+
+.PHONY: clean
+clean:
+	rm -rf $(BIN_DIR)*
+	rm -rf $(LIB_DIR)*
+	rm -rf $(OBJ_DIR)*
+	rm -rf $(DEP_DIR)*

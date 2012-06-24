@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#
+# Edward Sarkisyan. 2011
+# Installer for Edward's Build System
+# License: GPL
+# E-mail: edward.sarkisyan@gmail.com
+#
+
+default_install_directory="/usr/local/bin/"
+system_command="epsys"
+system_include_directory="epsys.inc"
+
+echo "Edward's Build system will be removed from $default_install_directory"
+echo "Press any key to install..."
+anykey=""
+read $anykey
+
+sudo rm  $default_install_directory$system_command
+sudo rm -rf $default_install_directory$system_include_directory
+echo "Edward's Build System removed :'("
